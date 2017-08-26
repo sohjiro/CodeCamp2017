@@ -24,11 +24,11 @@ defmodule Artesanos2017.Core.Station do
       station_coord == coordinate
     end)
 
-    total = length(coordinates)
+    total = length(coordinates) - 1
 
     case index do
       0 -> [Enum.at(coordinates, 1)]
-      ^total -> [Enum.at(coordinates, total - 2)]
+      ^total -> [Enum.at(coordinates, index - 1)]
       _ ->
         [Enum.at(coordinates, index - 1), Enum.at(coordinates, index + 1)]
     end

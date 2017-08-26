@@ -12,6 +12,7 @@ defmodule Artesanos2017.Core.StationTest do
     station = Station.find_neighbours_for_station(station_coord)
     assert station
     assert length(station.neighbours) == 1
+    assert station.neighbours == ["-99.1209751134766,19.4906856228133,0"]
 
     station_coord = "-99.214788,19.4634108,0"
     station = Station.find_neighbours_for_station(station_coord)
