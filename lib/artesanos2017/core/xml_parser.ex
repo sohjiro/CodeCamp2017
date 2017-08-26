@@ -1,7 +1,7 @@
 defmodule Artesanos2017.Core.XMLParser do
   @metro_path "/Users/sohjiro/artesanos2017/lib/artesanos2017/data/Metro_CDMX.kml"
 
-  alias Artesanos2017.Core.SubwayLine
+  alias Artesanos2017.Core.{SubwayLine, Station}
 
   defp find_path(path) do
     @metro_path
@@ -28,4 +28,13 @@ defmodule Artesanos2017.Core.XMLParser do
       %SubwayLine{name: name, coordinates: find_line_by_name(name)}
     end)
   end
+
+  def subway_stations do
+    "//Folder/name[text()='Estaciones de Metro']/../Placemark"
+    |> find_path
+    |> Enum.map(fn([_, name, _, description, _, _, _, [_, coordinates | _rest], _]) ->
+      %Station{name: name, coordinates: String.trim(coordinates)}
+    end)
+  end
+
 end

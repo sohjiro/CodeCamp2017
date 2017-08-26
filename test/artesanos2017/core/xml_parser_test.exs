@@ -1,6 +1,6 @@
 defmodule Artesanos2017.Core.XMLParserTest do
   use ExUnit.Case, async: true
-  alias Artesanos2017.Core.{XMLParser, SubwayLine}
+  alias Artesanos2017.Core.{XMLParser, SubwayLine, Station}
 
   test "should return the complete coordinates for a subway line" do
     coordinates = XMLParser.find_line_by_name("Línea 1")
@@ -17,7 +17,6 @@ defmodule Artesanos2017.Core.XMLParserTest do
     assert line_names == ["Línea 1", "Línea 2", "Línea 3", "Línea 4", "Línea 5", "Línea 6", "Línea 7", "Línea 8", "Línea 9", "Línea A", "Línea B", "Línea 12"]
   end
 
-
   test "should return a map of lines with coordinates" do
     lines_map = XMLParser.get_lines_map
 
@@ -27,7 +26,21 @@ defmodule Artesanos2017.Core.XMLParserTest do
     assert (lines_map |> hd |> value_of(:coordinates) |> length) == 20
   end
 
+  test "should find all subway stations and coordinates" do
+    subway_stations = XMLParser.subway_stations
+
+    assert subway_stations
+    assert length(subway_stations) == 162
+    assert (subway_stations |> hd |> value_of(:name)) == "Acatitla"
+    assert (subway_stations |> hd |> value_of(:coordinates)) == "-99.0056777,19.3647171,0"
+    # assert (subway_stations |> hd |> value_of(:lines)) == ["Línea A"]
+  end
+
   defp value_of(%SubwayLine{} = data, prop) do
+    Map.get(data, prop)
+  end
+
+  defp value_of(%Station{} = data, prop) do
     Map.get(data, prop)
   end
 
