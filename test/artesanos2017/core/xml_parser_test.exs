@@ -1,6 +1,6 @@
 defmodule Artesanos2017.Core.XMLParserTest do
   use ExUnit.Case, async: true
-  alias Artesanos2017.Core.XMLParser
+  alias Artesanos2017.Core.{XMLParser, SubwayLine}
 
   test "should return the complete coordinates for a subway line" do
     coordinates = XMLParser.find_line_by_name("Línea 1")
@@ -20,9 +20,15 @@ defmodule Artesanos2017.Core.XMLParserTest do
 
   test "should return a map of lines with coordinates" do
     lines_map = XMLParser.get_lines_map
+
     assert lines_map
     assert length(lines_map) == 12
-    assert (lines_map |> hd |> Map.get(:name)) == "Línea 1"
-    assert (lines_map |> hd |> Map.get(:coordinates) |> length) == 20
+    assert (lines_map |> hd |> value_of(:name)) == "Línea 1"
+    assert (lines_map |> hd |> value_of(:coordinates) |> length) == 20
   end
+
+  defp value_of(%SubwayLine{} = data, prop) do
+    Map.get(data, prop)
+  end
+
 end

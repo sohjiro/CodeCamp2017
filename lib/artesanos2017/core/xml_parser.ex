@@ -1,6 +1,8 @@
 defmodule Artesanos2017.Core.XMLParser do
   @metro_path "/Users/sohjiro/artesanos2017/lib/artesanos2017/data/Metro_CDMX.kml"
 
+  alias Artesanos2017.Core.SubwayLine
+
   defp find_path(path) do
     @metro_path
     |> File.read!
@@ -23,7 +25,7 @@ defmodule Artesanos2017.Core.XMLParser do
   def get_lines_map do
     find_all_line_names()
     |> Enum.map(fn(name) ->
-      %{name: name, coordinates: find_line_by_name(name)}
+      %SubwayLine{name: name, coordinates: find_line_by_name(name)}
     end)
   end
 end
