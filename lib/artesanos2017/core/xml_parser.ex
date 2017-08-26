@@ -27,6 +27,9 @@ defmodule Artesanos2017.Core.XMLParser do
     |> Enum.map(fn(name) ->
       %SubwayLine{name: name, coordinates: find_line_by_name(name)}
     end)
+    |> Enum.reduce(%{}, fn(line, acc) ->
+      Map.put(acc, line.name, line)
+    end)
   end
 
   defp parse_lines_from_description(description) do
