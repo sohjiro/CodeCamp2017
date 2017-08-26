@@ -49,6 +49,13 @@ defmodule Artesanos2017.Core.XMLParser do
     end)
   end
 
+  def subway_stations_map do
+    subway_stations
+    |> Enum.reduce(%{}, fn(station, acc) ->
+      Map.put(acc, station.coordinates, station)
+    end)
+  end
+
   defp complete_text("Línea " <> _n = text), do: text
   defp complete_text(n), do: "Línea #{n}"
 

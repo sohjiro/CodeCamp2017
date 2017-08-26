@@ -1,3 +1,3 @@
 defmodule Artesanos2017.Core.Station do
-  defstruct name: "", coordinates: "", lines: []
+  defstruct name: "", coordinates: "", lines: [], neighbours: []
 end

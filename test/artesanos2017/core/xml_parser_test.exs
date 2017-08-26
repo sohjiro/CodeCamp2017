@@ -31,16 +31,19 @@ defmodule Artesanos2017.Core.XMLParserTest do
 
     assert subway_stations
     assert length(subway_stations) == 162
-    assert (subway_stations |> Enum.at(12) |> value_of(:name)) == "Balderas"
-    assert (subway_stations |> Enum.at(12) |> value_of(:coordinates)) == "-99.149074,19.42741,0"
-    assert (subway_stations |> Enum.at(12) |> value_of(:lines)) == ["Línea 1", "Línea 3"]
+    assert (subway_stations |> Enum.at(12)) == %Station{name: "Balderas", lines: ["Línea 1", "Línea 3"], coordinates: "-99.149074,19.42741,0"}
   end
+
+  test "should return stations as a map" do
+    map_stations = XMLParser.subway_stations_map
+
+    assert map_stations
+    assert (map_stations |> Map.keys |> length ) == 162
+    assert (map_stations |> Map.get("-99.149074,19.42741,0")) == %Station{name: "Balderas", lines: ["Línea 1", "Línea 3"], coordinates: "-99.149074,19.42741,0"}
+  end
+
 
   defp value_of(%SubwayLine{} = data, prop) do
-    Map.get(data, prop)
-  end
-
-  defp value_of(%Station{} = data, prop) do
     Map.get(data, prop)
   end
 
