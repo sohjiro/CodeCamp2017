@@ -33,6 +33,8 @@ defmodule Artesanos2017.Core.XMLParser do
     description
     |> String.split(".")
     |> hd
+    |> String.replace(" (Estación Terminal)", "")
+    |> String.replace(" y ", ", ")
     |> String.split(", ")
     |> Enum.map(&complete_text/1)
   end
@@ -50,7 +52,7 @@ defmodule Artesanos2017.Core.XMLParser do
   end
 
   def subway_stations_map do
-    subway_stations
+    subway_stations()
     |> Enum.reduce(%{}, fn(station, acc) ->
       Map.put(acc, station.coordinates, station)
     end)
