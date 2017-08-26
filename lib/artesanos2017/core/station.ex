@@ -12,10 +12,13 @@ defmodule Artesanos2017.Core.Station do
     map_stations = XMLParser.subway_stations_map()
 
     station = Map.get(map_stations, station_coord)
-    [line_for_station] = station.lines
 
-    line = line_maps |> Map.get(line_for_station)
-    neighbours = find_neighbours(station_coord, line.coordinates)
+    neighbours = Enum.map(station.lines, fn(line_for_station) ->
+      line = line_maps |> Map.get(line_for_station)
+      find_neighbours(station_coord, line.coordinates)
+    end)
+    |> List.flatten
+
     %{station | neighbours: neighbours}
   end
 
