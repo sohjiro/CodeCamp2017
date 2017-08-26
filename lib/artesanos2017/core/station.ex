@@ -3,14 +3,7 @@ defmodule Artesanos2017.Core.Station do
 
   alias Artesanos2017.Core.XMLParser
 
-  def find_neighbours_for_station(station_coord) do
-    line_maps = XMLParser.get_lines_map()
-    |> Enum.reduce(%{}, fn(line, acc) ->
-      Map.put(acc, line.name, line)
-    end)
-
-    map_stations = XMLParser.subway_stations_map()
-
+  def find_neighbours_for_station(map_stations, line_maps, station_coord) do
     station = Map.get(map_stations, station_coord)
 
     neighbours = Enum.map(station.lines, fn(line_for_station) ->
@@ -35,6 +28,16 @@ defmodule Artesanos2017.Core.Station do
       _ ->
         [Enum.at(coordinates, index - 1), Enum.at(coordinates, index + 1)]
     end
+  end
+
+  def parse_into_dijkstra_graph(stations, line_maps) do
+    stations
+    |> Map.keys
+    |> Enum.reduce(%{}, fn(k, acc) ->
+      station = find_neighbours_for_station(stations, line_maps, k)
+      neighbours = Enum.map(station.neighbours, fn(neighbour) -> {1, neighbour} end)
+      Map.put(acc, k, neighbours)
+    end)
   end
 
 end
