@@ -31,9 +31,9 @@ defmodule Artesanos2017.Core.XMLParserTest do
 
     assert subway_stations
     assert length(subway_stations) == 162
-    assert (subway_stations |> hd |> value_of(:name)) == "Acatitla"
-    assert (subway_stations |> hd |> value_of(:coordinates)) == "-99.0056777,19.3647171,0"
-    # assert (subway_stations |> hd |> value_of(:lines)) == ["Línea A"]
+    assert (subway_stations |> Enum.at(12) |> value_of(:name)) == "Balderas"
+    assert (subway_stations |> Enum.at(12) |> value_of(:coordinates)) == "-99.149074,19.42741,0"
+    assert (subway_stations |> Enum.at(12) |> value_of(:lines)) == ["Línea 1", "Línea 3"]
   end
 
   defp value_of(%SubwayLine{} = data, prop) do

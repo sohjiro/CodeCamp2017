@@ -29,12 +29,27 @@ defmodule Artesanos2017.Core.XMLParser do
     end)
   end
 
+  defp parse_lines_from_description(description) do
+    description
+    |> String.split(".")
+    |> hd
+    |> String.split(", ")
+    |> Enum.map(&complete_text/1)
+  end
+
   def subway_stations do
     "//Folder/name[text()='Estaciones de Metro']/../Placemark"
     |> find_path
     |> Enum.map(fn([_, name, _, description, _, _, _, [_, coordinates | _rest], _]) ->
-      %Station{name: name, coordinates: String.trim(coordinates)}
+      %Station{
+        name: name,
+        coordinates: String.trim(coordinates),
+        lines: parse_lines_from_description(description)
+      }
     end)
   end
+
+  defp complete_text("Línea " <> _n = text), do: text
+  defp complete_text(n), do: "Línea #{n}"
 
 end
