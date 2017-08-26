@@ -6,7 +6,7 @@ defmodule Artesanos2017.Core.XMLParserTest do
     coordinates = XMLParser.find_line_by_name("Línea 1")
 
     assert coordinates
-    # assert length(coordinates) == 19
+    assert length(coordinates) == 20
   end
 
 end
