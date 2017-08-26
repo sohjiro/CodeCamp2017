@@ -42,6 +42,22 @@ defmodule Artesanos2017.Core.XMLParserTest do
     assert (map_stations |> Map.get("-99.149074,19.42741,0")) == %Station{name: "Balderas", lines: ["Línea 1", "Línea 3"], coordinates: "-99.149074,19.42741,0"}
   end
 
+  test "should remove estación terminal" do
+    subway_stations = XMLParser.subway_stations
+
+    assert subway_stations
+    assert length(subway_stations) == 162
+    assert (subway_stations |> Enum.at(13)) == %Station{name: "Barranca del Muerto", lines: ["Línea 7"], coordinates: "-99.189586,19.3607037,0"}
+  end
+
+  test "should handle descriptions with 'y'" do
+    subway_stations = XMLParser.subway_stations
+
+    assert subway_stations
+    assert length(subway_stations) == 162
+    assert (subway_stations |> Enum.at(25)) == %Station{name: "Chabacano", lines: ["Línea 2", "Línea 8", "Línea 9"], coordinates: "-99.1357434,19.4084883,0"}
+  end
+
 
   defp value_of(%SubwayLine{} = data, prop) do
     Map.get(data, prop)
